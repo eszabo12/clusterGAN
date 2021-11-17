@@ -118,7 +118,7 @@ def main():
         xe_loss.cuda()
         mse_loss.cuda()
         
-    Tensor = torch.cuda.FloatTensor if cuda else torch.FloatTensor
+    Tensor = torch.FloatTensor if cuda else torch.FloatTensor
     
     # Configure training data loader
     dataloader = get_dataloader(dataset_name=dataset_name,

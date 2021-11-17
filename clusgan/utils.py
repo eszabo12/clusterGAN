@@ -75,7 +75,7 @@ def sample_z(shape=64, latent_dim=10, n_c=10, fix_class=-1, req_grad=False):
 
     assert (fix_class == -1 or (fix_class >= 0 and fix_class < n_c) ), "Requested class %i outside bounds."%fix_class
 
-    Tensor = torch.cuda.FloatTensor
+    Tensor = torch.FloatTensor
     
     # Sample noise as generator input, zn
     zn = Variable(Tensor(0.75*np.random.normal(0, 1, (shape, latent_dim))), requires_grad=req_grad)

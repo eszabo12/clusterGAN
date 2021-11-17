@@ -77,7 +77,7 @@ def main():
     # Configure data loader
     dataloader = get_dataloader(dataset_name=dataset_name, data_dir=data_dir, batch_size=n_samples, train_set=False)
     
-    Tensor = torch.cuda.FloatTensor if cuda else torch.FloatTensor
+    Tensor = torch.FloatTensor if cuda else torch.FloatTensor
 
     # Load TSNE
     if (perplexity < 0):
