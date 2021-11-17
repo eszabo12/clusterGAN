@@ -96,7 +96,7 @@ def main():
     
     cuda = True if torch.cuda.is_available() else False
     cuda = False
-    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    device = torch.device('cuda:0' if cuda else 'cpu')
     torch.cuda.set_device(device_id)
 
     # Loss function
