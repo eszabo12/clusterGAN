@@ -95,6 +95,7 @@ def main():
     x_shape = (channels, img_size, img_size)
     
     cuda = True if torch.cuda.is_available() else False
+    cuda = False
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     torch.cuda.set_device(device_id)
 
@@ -144,7 +145,9 @@ def main():
     c_zn = []
     c_zc = []
     c_i = []
-    
+
+    images = []
+
     # Training loop 
     print('\nBegin training session with %i epochs...\n'%(n_epochs))
     for epoch in range(n_epochs):
@@ -274,16 +277,25 @@ def main():
         r_imgs, i_label = real_imgs.data[:n_samp], itruth_label[:n_samp]
         e_zn, e_zc, e_zc_logits = encoder(r_imgs)
         reg_imgs = generator(e_zn, e_zc)
-        save_image(r_imgs.data[:n_samp],
-                   '%s/real_%06i.png' %(imgs_dir, epoch), 
-                   nrow=n_sqrt_samp, normalize=True)
-        save_image(reg_imgs.data[:n_samp],
-                   '%s/reg_%06i.png' %(imgs_dir, epoch), 
-                   nrow=n_sqrt_samp, normalize=True)
+
+        # we just want the generated examples
+
+        # save_image(r_imgs.data[:n_samp],
+        #            '%s/real_%06i.png' %(imgs_dir, epoch), 
+        #            nrow=n_sqrt_samp, normalize=True)
+        # save_image(reg_imgs.data[:n_samp],
+        #            '%s/reg_%06i.png' %(imgs_dir, epoch), 
+        #            nrow=n_sqrt_samp, normalize=True)
         save_image(gen_imgs_samp.data[:n_samp],
                    '%s/gen_%06i.png' %(imgs_dir, epoch), 
                    nrow=n_sqrt_samp, normalize=True)
-        
+
+        if epoch % 10 == 0: images.append(gen_imgs_samp.data[:n_samp])
+
+        if epoch == 0:
+            imgs = [np.array(to_pil_image(img)) for img in images]
+            imageio.mimsave('/content/drive/MyDrive/outputs/clusterGAN_fashion.gif', images)
+
         ## Generate samples for specified classes
         stack_imgs = []
         for idx in range(n_c):
@@ -305,7 +317,9 @@ def main():
         save_image(stack_imgs,
                    '%s/gen_classes_%06i.png' %(imgs_dir, epoch), 
                    nrow=n_c, normalize=True)
-     
+
+        # imgs = [np.array(to_pil_image(img)) for img in stack_imgs]
+        # imageio.mimsave('/content/drive/MyDrive/outputs/generator_images.gif', imgs)
 
         print ("[Epoch %d/%d] \n"\
                "\tModel Losses: [D: %f] [GE: %f]" % (epoch, 
@@ -319,7 +333,9 @@ def main():
                                                              lat_xe_loss.item())
              )
 
-    
+    # now that the training is done, we want to save the gif
+    imgs = [np.array(to_pil_image(img)) for img in images]
+    imageio.mimsave('/content/drive/MyDrive/outputs/generator_images.gif', images)
 
 
     # Save training results
