@@ -98,7 +98,6 @@ def main():
     cuda = False
     device = torch.device('cuda:0' if cuda else 'cpu')
     
-    torch.cuda.set_device(device_id)
 
     # Loss function
     bce_loss = torch.nn.BCELoss()
@@ -111,6 +110,7 @@ def main():
     discriminator = Discriminator_CNN(wass_metric=wass_metric)
     
     if cuda:
+        torch.cuda.set_device(device_id)
         generator.cuda()
         encoder.cuda()
         discriminator.cuda()
