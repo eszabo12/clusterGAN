@@ -62,7 +62,7 @@ def main():
     n_c = train_df['n_classes'][0]
 
     cuda = True if torch.cuda.is_available() else False
-    cuda = False
+    
     # Load encoder model
     encoder = Encoder_CNN(latent_dim, n_c)
     enc_fname = os.path.join(models_dir, encoder.name + '.pth.tar')

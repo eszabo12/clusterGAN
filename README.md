@@ -8,16 +8,16 @@ an approach to unsupervised clustering using generative adversarial networks.
 
 The package as well as the necessary requirements can be installed by running `make` or via
 ```
-virtualenv -p /usr/local/bin/python3 venv
-source venv/bin/activate
-python setup.py install
+virtualenv -p /usr/bin/python3 venv
+set VIRTUAL_ENV '/home/elleszabo/Repos/clusterGAN/venv'
+python3 setup.py install
 ```
 
 ## Run ClusterGAN on MNIST
 
 To run ClusterGAN on the MNIST dataset, ensure the package is setup and then run
 ```
-python train.py -r test_run -s mnist -b 64 -n 300
+python train.py -r test_run -s fashion-mnist -b 64 -n 300
 ```
 where a directory `runs/mnist/test_run` will be made and contain the generated output
 (models, example generated instances, training figures) from the training run.

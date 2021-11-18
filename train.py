@@ -34,6 +34,7 @@ except ImportError as e:
     raise ImportError
 
 def main():
+    torch.autograd.set_detect_anomaly(True)
     global args
     parser = argparse.ArgumentParser(description="Convolutional NN Training Script")
     parser.add_argument("-r", "--run_name", dest="run_name", default='clusgan', help="Name of training run")
@@ -95,7 +96,7 @@ def main():
     x_shape = (channels, img_size, img_size)
     
     cuda = True if torch.cuda.is_available() else False
-    cuda = False
+    
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     torch.cuda.set_device(device_id)
 
@@ -181,6 +182,7 @@ def main():
             # Discriminator output from real and generated samples
             D_gen = discriminator(gen_imgs)
             D_real = discriminator(real_imgs)
+            print("Type d_gen and D_real: " + str(D_real.size()))
             
             # Step for Generator & Encoder, n_skip_iter times less than for discriminator
             if (i % n_skip_iter == 0):
